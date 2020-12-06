@@ -15,10 +15,10 @@ function setup() {
   numberOfFireworksSlider.position(330, 20);
 
   numberOfParticlesSlider = createSlider(100, 350, 150, 10);
-  numberOfParticlesSlider.position(750, 20);
+  numberOfParticlesSlider.position(720, 20);
 
   maxSpreadSlider = createSlider(10, 20, 15, 0.1);
-  maxSpreadSlider.position(1500, 20);
+  maxSpreadSlider.position(1100, 20);
 }
 
 function draw() {
