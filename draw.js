@@ -17,9 +17,6 @@ function setup() {
   numberOfParticlesSlider = createSlider(100, 350, 150, 10);
   numberOfParticlesSlider.position(750, 20);
 
-  minSpreadSlider = createSlider(0.01, 0.5, 0.1, 0.01);
-  minSpreadSlider.position(1120, 20);
-
   maxSpreadSlider = createSlider(10, 20, 15, 0.1);
   maxSpreadSlider.position(1500, 20);
 }
@@ -131,14 +128,7 @@ function draw() {
 
   var lifeSpan = Math.random() * (300 - 100) + 100;
 
-  var minSpread = minSpreadSlider.value();
-  stroke("black");
-  fill("white");
-  text(
-    "Min Partical Spread",
-    minSpreadSlider.x + minSpreadSlider.width + 10,
-    35
-  );
+  var minSpread = 0.1;
 
   var maxSpread = maxSpreadSlider.value();
   stroke("black");
