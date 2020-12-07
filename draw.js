@@ -14,10 +14,10 @@ function setup() {
   numberOfFireworksSlider = createSlider(0.02, 0.5, 0.05, 0.01);
   numberOfFireworksSlider.position(330, 20);
 
-  numberOfParticlesSlider = createSlider(100, 350, 150, 10);
+  numberOfParticlesSlider = createSlider(70, 300, 120, 10);
   numberOfParticlesSlider.position(720, 20);
 
-  maxSpreadSlider = createSlider(10, 20, 15, 0.1);
+  maxSpreadSlider = createSlider(7, 15, 10, 0.1);
   maxSpreadSlider.position(1100, 20);
 }
 
@@ -92,7 +92,6 @@ function draw() {
       }
 
       for (var i = this.particles.length - 1; i >= 0; i--) {
-        this.particles[i].applyForce(gravity);
         this.particles[i].update();
 
         if (this.particles[i].done()) {
@@ -120,15 +119,16 @@ function draw() {
 
       for (var i = 0; i < this.particles.length; i++) {
         this.particles[i].show();
+        //this.particles[i].applyForce(gravity);
       }
     };
   }
 
   //Particles
 
-  var lifeSpan = Math.random() * (300 - 100) + 100;
+  var lifeSpan = Math.random() * (300 - 200) + 200;
 
-  var minSpread = 0.1;
+  var minSpread = 0.3;
 
   var maxSpread = maxSpreadSlider.value();
   stroke("black");
@@ -138,7 +138,7 @@ function draw() {
     maxSpreadSlider.x + maxSpreadSlider.width + 10,
     35
   );
-  var lifeBeforeExplosion = 4;
+  var lifeBeforeExplosion = 3;
   function Particle(x, y, hu, firework) {
     this.pos = createVector(x, y);
     this.firework = firework;
