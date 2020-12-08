@@ -1,2 +1,2 @@
 # FireWorkSimulation
-FOR Graphics Mini Project
+For Graphics Mini Project
