@@ -1,5 +1,9 @@
 var fireworks = [];
 var gravity;
+let pullOfGravitySlider;
+let numberOfFireworksSlider;
+let numberOfParticlesSlider;
+let maxSpreadSlider;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -57,8 +61,6 @@ function draw() {
     }
   }
 
-  //Fireworks
-  var numberOfParticles = numberOfParticlesSlider.value();
   stroke("black");
   fill("white");
   text(
@@ -66,71 +68,7 @@ function draw() {
     numberOfParticlesSlider.x + numberOfParticlesSlider.width + 10,
     35
   );
-  function Firework() {
-    this.hu = random(255);
-    this.firework = new Particle(random(width), height, this.hu, true);
-    this.exploded = false;
-    this.particles = [];
 
-    this.done = function () {
-      if (this.exploded && this.particles.length === 0) {
-        return true;
-      } else {
-        return false;
-      }
-    };
-
-    this.update = function () {
-      if (!this.exploded) {
-        this.firework.applyForce(gravity);
-        this.firework.update();
-
-        if (this.firework.vel.y >= 0) {
-          this.exploded = true;
-          this.explode();
-        }
-      }
-
-      for (var i = this.particles.length - 1; i >= 0; i--) {
-        this.particles[i].update();
-
-        if (this.particles[i].done()) {
-          this.particles.splice(i, 1);
-        }
-      }
-    };
-
-    this.explode = function () {
-      for (var i = 0; i < numberOfParticles; i++) {
-        var p = new Particle(
-          this.firework.pos.x,
-          this.firework.pos.y,
-          this.hu,
-          false
-        );
-        this.particles.push(p);
-      }
-    };
-
-    this.show = function () {
-      if (!this.exploded) {
-        this.firework.show();
-      }
-
-      for (var i = 0; i < this.particles.length; i++) {
-        this.particles[i].show();
-        // this.particles[i].applyForce(gravity);
-      }
-    };
-  }
-
-  //Particles
-
-  var lifeSpan = Math.random() * (250 - 100) + 100;
-
-  var minSpread = 0.3;
-
-  var maxSpread = maxSpreadSlider.value();
   stroke("black");
   fill("white");
   text(
@@ -138,56 +76,123 @@ function draw() {
     maxSpreadSlider.x + maxSpreadSlider.width + 10,
     35
   );
-  var lifeBeforeExplosion = 3;
-  function Particle(x, y, hu, firework) {
-    this.pos = createVector(x, y);
-    this.firework = firework;
-    this.lifespan = lifeSpan;
-    this.hu = hu;
-    this.acc = createVector(0, 0);
+}
 
-    if (this.firework) {
-      this.vel = createVector(0, random(-12, -8));
+//FireWorks
+function Firework() {
+  this.hu = random(255);
+  this.firework = new Particle(random(width), height, this.hu, true);
+  this.exploded = false;
+  this.particles = [];
+
+  this.done = function () {
+    if (this.exploded && this.particles.length === 0) {
+      return true;
     } else {
-      this.vel = p5.Vector.random2D();
-      this.vel.mult(random(minSpread, maxSpread));
+      return false;
+    }
+  };
+
+  this.update = function () {
+    if (!this.exploded) {
+      this.firework.applyForce(gravity);
+      this.firework.update();
+
+      if (this.firework.vel.y >= 0) {
+        this.exploded = true;
+        this.explode();
+      }
     }
 
-    this.applyForce = function (force) {
-      this.acc.add(force);
-    };
+    for (var i = this.particles.length - 1; i >= 0; i--) {
+      this.particles[i].update();
 
-    this.update = function () {
-      if (!this.firework) {
-        this.vel.mult(0.9);
-        this.lifespan -= lifeBeforeExplosion;
+      if (this.particles[i].done()) {
+        this.particles.splice(i, 1);
       }
+    }
+  };
+  var numberOfParticles = numberOfParticlesSlider.value();
+  this.explode = function () {
+    for (var i = 0; i < numberOfParticles; i++) {
+      var p = new Particle(
+        this.firework.pos.x,
+        this.firework.pos.y,
+        this.hu,
+        false
+      );
+      this.particles.push(p);
+    }
+  };
 
-      this.vel.add(this.acc);
-      this.pos.add(this.vel);
-      this.acc.mult(0);
-    };
+  this.show = function () {
+    if (!this.exploded) {
+      this.firework.show();
+    }
 
-    this.done = function () {
-      if (this.lifespan < 0) {
-        return true;
-      } else {
-        return false;
-      }
-    };
+    for (var i = 0; i < this.particles.length; i++) {
+      this.particles[i].show();
+      // this.particles[i].applyForce(gravity);
+    }
+  };
+}
 
-    this.show = function () {
-      colorMode(HSB);
+//Particles
 
-      if (!this.firework) {
-        strokeWeight(2);
-        stroke(hu, 255, 255, this.lifespan);
-      } else {
-        strokeWeight(5);
-        stroke(hu, 255, 255);
-      }
+var lifeSpan = Math.random() * (250 - 100) + 100;
 
-      point(this.pos.x, this.pos.y);
-    };
+var minSpread = 0.3;
+
+var lifeBeforeExplosion = 3;
+function Particle(x, y, hu, firework) {
+  this.pos = createVector(x, y);
+  this.firework = firework;
+  this.lifespan = lifeSpan;
+  this.hu = hu;
+  this.acc = createVector(0, 0);
+  var maxSpread = maxSpreadSlider.value();
+
+  if (this.firework) {
+    this.vel = createVector(0, random(-12, -8));
+  } else {
+    this.vel = p5.Vector.random2D();
+    this.vel.mult(random(minSpread, maxSpread));
   }
+
+  this.applyForce = function (force) {
+    this.acc.add(force);
+  };
+
+  this.update = function () {
+    if (!this.firework) {
+      this.vel.mult(0.9);
+      this.lifespan -= lifeBeforeExplosion;
+    }
+
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+    this.acc.mult(0);
+  };
+
+  this.done = function () {
+    if (this.lifespan < 0) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  this.show = function () {
+    colorMode(HSB);
+
+    if (!this.firework) {
+      strokeWeight(2);
+      stroke(hu, 255, 255, this.lifespan);
+    } else {
+      strokeWeight(5);
+      stroke(hu, 255, 255);
+    }
+
+    point(this.pos.x, this.pos.y);
+  };
 }
