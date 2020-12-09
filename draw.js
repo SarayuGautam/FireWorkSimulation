@@ -119,14 +119,14 @@ function draw() {
 
       for (var i = 0; i < this.particles.length; i++) {
         this.particles[i].show();
-        //this.particles[i].applyForce(gravity);
+        // this.particles[i].applyForce(gravity);
       }
     };
   }
 
   //Particles
 
-  var lifeSpan = Math.random() * (300 - 200) + 200;
+  var lifeSpan = Math.random() * (250 - 100) + 100;
 
   var minSpread = 0.3;
 
