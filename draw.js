@@ -15,7 +15,7 @@ function setup() {
   pullOfGravitySlider = createSlider(0.06, 0.2, 0.08, 0.01);
   pullOfGravitySlider.position(20, 20);
 
-  numberOfFireworksSlider = createSlider(0.02, 0.5, 0.05, 0.01);
+  numberOfFireworksSlider = createSlider(0.02, 0.2, 0.05, 0.01);
   numberOfFireworksSlider.position(330, 20);
 
   numberOfParticlesSlider = createSlider(70, 300, 120, 10);
